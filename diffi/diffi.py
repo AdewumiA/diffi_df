@@ -12,19 +12,19 @@ def diffi_score(forest, X, inlier_samples="auto"):
 
     Parameters
     ----------
-    X : numpy.ndarray of shape (n_samples, n_features)
+    X: numpy.ndarray of shape (n_samples, n_features)
         The input samples.
 
-    inlier_samples : 'auto', 'all' or int, default='auto'
-        The amount of inlier samples to consider when computing importance coefficient.
+    inlier_samples: 'auto', 'all' or int, default='auto'
+        The number of inlier samples to consider when computing importance coefficient.
             - If 'auto', use the same amount of outliers found.
-            - If 'all', use the all the inliers in the dataset.
+            - If 'all', use all the inliers in the dataset.
             - If int, the contamination should be in the range [0, 0.5].
 
     Returns
     -------
-    fi : numpy.ndarray of shape (n_features,)
-        Array with the inportance of each feature.
+    fi: numpy.ndarray of shape (n_features,)
+        Array with the importance of each feature.
 
     References
     ----------
@@ -52,7 +52,7 @@ def diffi_score(forest, X, inlier_samples="auto"):
 
 def _mean_cumulative_importance(forest, X):
     '''
-    Computes mean cumulative importance for every feature of given forest on dataset X
+    Computes mean cumulative importance for every feature of the given forest on the dataset X
     '''
 
     f_importance = np.zeros(X.shape[1])
@@ -74,8 +74,10 @@ def _mean_cumulative_importance(forest, X):
         else:
             f_importance += importance_t
             f_count += count_t
-
-    return f_importance / f_count
+    '''
+     np.maximum(f_count, 1) was introduced to avoid division by 0
+    '''
+    return f_importance / np.maximum(f_count, 1) 
 
 
 def _cumulative_ic(tree, X):

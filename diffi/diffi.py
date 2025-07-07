@@ -1,4 +1,6 @@
 from sklearn.ensemble._iforest import _average_path_length
+import pandas as pd
+import numpy as np
 
 # epsilon as defined in the original paper
 _EPSILON = 1e-2
